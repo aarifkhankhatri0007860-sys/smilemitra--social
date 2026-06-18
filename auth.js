@@ -1,120 +1,125 @@
-// ==========================
-// SMILE SOCIAL AUTH SYSTEM
-// ==========================
-
 // SIGNUP
 
-function signup() {
+function signup(){
 
-    let name = document.getElementById("name").value.trim();
-    let username = document.getElementById("username").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("password").value;
-    let confirmPassword = document.getElementById("confirmPassword").value;
+let name =
+document.getElementById("name").value.trim();
 
-    if (
-        name === "" ||
-        username === "" ||
-        email === "" ||
-        password === "" ||
-        confirmPassword === ""
-    ) {
-        alert("Please fill all fields");
-        return;
-    }
+let username =
+document.getElementById("username").value.trim();
 
-    if (password !== confirmPassword) {
-        alert("Password does not match");
-        return;
-    }
+let email =
+document.getElementById("email").value.trim();
 
-    let user = {
-        name,
-        username,
-        email,
-        password
-    };
+let password =
+document.getElementById("password").value;
 
-    localStorage.setItem(
-        "user",
-        JSON.stringify(user)
-    );
+let confirmPassword =
+document.getElementById("confirmPassword").value;
 
-    alert("Account Created Successfully");
+if(
+!name ||
+!username ||
+!email ||
+!password ||
+!confirmPassword
+){
+alert("Fill all fields");
+return;
+}
 
-    window.location.href = "login.html";
+if(password !== confirmPassword){
+alert("Password not match");
+return;
+}
+
+let user = {
+name,
+username,
+email,
+password
+};
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+alert("Account Created");
+
+window.location.href =
+"login.html";
+
 }
 
 
 
 // LOGIN
 
-function login() {
+function login(){
 
-    let loginInput =
-        document.getElementById("loginEmail").value.trim();
+let loginInput =
+document.getElementById("loginEmail").value.trim();
 
-    let loginPassword =
-        document.getElementById("loginPassword").value;
+let loginPassword =
+document.getElementById("loginPassword").value;
 
-    let savedUser =
-        JSON.parse(localStorage.getItem("user"));
+let savedUser =
+JSON.parse(
+localStorage.getItem("user")
+);
 
-    if (!savedUser) {
+if(!savedUser){
+alert("No account found");
+return;
+}
 
-        alert("No account found. Create account first.");
+if(
 
-        return;
-    }
+(loginInput === savedUser.email ||
 
-    let emailMatch =
-        loginInput === savedUser.email;
+loginInput === savedUser.username)
 
-    let usernameMatch =
-        loginInput === savedUser.username;
+&&
 
-    let passwordMatch =
-        loginPassword === savedUser.password;
+loginPassword === savedUser.password
 
-    if (
-        (emailMatch || usernameMatch)
-        &&
-        passwordMatch
-    ) {
+){
 
-        localStorage.setItem(
-            "isLoggedIn",
-            "true"
-        );
+localStorage.setItem(
+"isLoggedIn",
+"true"
+);
 
-        alert("Login Successful");
+window.location.href =
+"dashboard.html";
 
-        window.location.href =
-            "dashboard.html";
+}
+else{
 
-    } else {
+alert("Invalid Login");
 
-        alert("Invalid Login Details");
+}
 
-    }
 }
 
 
 
 // CHECK LOGIN
 
-function checkLogin() {
+function checkLogin(){
 
-    let isLoggedIn =
-        localStorage.getItem("isLoggedIn");
+let isLoggedIn =
+localStorage.getItem(
+"isLoggedIn"
+);
 
-    if (isLoggedIn !== "true") {
+if(isLoggedIn !== "true"){
 
-        alert("Please Login First");
+window.location.href =
+"login.html";
 
-        window.location.href =
-            "login.html";
-    }
+}
 
 }
 
@@ -122,13 +127,13 @@ function checkLogin() {
 
 // LOGOUT
 
-function logout() {
+function logout(){
 
-    localStorage.removeItem("isLoggedIn");
+localStorage.removeItem(
+"isLoggedIn"
+);
 
-    alert("Logged Out");
-
-    window.location.href =
-        "login.html";
+window.location.href =
+"login.html";
 
 }
