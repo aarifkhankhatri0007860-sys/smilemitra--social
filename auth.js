@@ -1,139 +1,114 @@
+console.log("AUTH JS LOADED");
+
+// ==========================
 // SIGNUP
+// ==========================
 
-function signup(){
+function signup() {
 
-let name =
-document.getElementById("name").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
-let username =
-document.getElementById("username").value.trim();
+    if (!name || !username || !email || !password || !confirmPassword) {
+        alert("Please fill all fields");
+        return;
+    }
 
-let email =
-document.getElementById("email").value.trim();
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+    }
 
-let password =
-document.getElementById("password").value;
+    const user = {
+        name: name,
+        username: username,
+        email: email,
+        password: password
+    };
 
-let confirmPassword =
-document.getElementById("confirmPassword").value;
+    localStorage.setItem("user", JSON.stringify(user));
 
-if(
-!name ||
-!username ||
-!email ||
-!password ||
-!confirmPassword
-){
-alert("Fill all fields");
-return;
-}
+    alert("Account Created Successfully");
 
-if(password !== confirmPassword){
-alert("Password not match");
-return;
-}
-
-let user = {
-name,
-username,
-email,
-password
-};
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-alert("Account Created");
-
-window.location.href =
-"login.html";
-
+    window.location.href = "login.html";
 }
 
 
-
+// ==========================
 // LOGIN
+// ==========================
 
-function login(){
+function login() {
 
-let loginInput =
-document.getElementById("loginEmail").value.trim();
+    const loginInput =
+        document.getElementById("loginEmail").value.trim();
 
-let loginPassword =
-document.getElementById("loginPassword").value;
+    const loginPassword =
+        document.getElementById("loginPassword").value;
 
-let savedUser =
-JSON.parse(
-localStorage.getItem("user")
-);
+    const savedUser =
+        JSON.parse(localStorage.getItem("user"));
 
-if(!savedUser){
-alert("No account found");
-return;
-}
+    if (!savedUser) {
+        alert("No account found. Please create account first.");
+        return;
+    }
 
-if(
+    const validUser =
+        loginInput === savedUser.email ||
+        loginInput === savedUser.username;
 
-(loginInput === savedUser.email ||
+    const validPassword =
+        loginPassword === savedUser.password;
 
-loginInput === savedUser.username)
+    if (validUser && validPassword) {
 
-&&
+        localStorage.setItem(
+            "isLoggedIn",
+            "true"
+        );
 
-loginPassword === savedUser.password
+        alert("Login Successful");
 
-){
+        window.location.href =
+            "dashboard.html";
 
-localStorage.setItem(
-"isLoggedIn",
-"true"
-);
+    } else {
 
-window.location.href =
-"dashboard.html";
+        alert("Invalid Username/Email or Password");
 
-}
-else{
-
-alert("Invalid Login");
-
-}
-
+    }
 }
 
 
-
+// ==========================
 // CHECK LOGIN
+// ==========================
 
-function checkLogin(){
+function checkLogin() {
 
-let isLoggedIn =
-localStorage.getItem(
-"isLoggedIn"
-);
+    const isLoggedIn =
+        localStorage.getItem("isLoggedIn");
 
-if(isLoggedIn !== "true"){
+    if (isLoggedIn !== "true") {
 
-window.location.href =
-"login.html";
-
-}
-
+        window.location.href =
+            "login.html";
+    }
 }
 
 
-
+// ==========================
 // LOGOUT
+// ==========================
 
-function logout(){
+function logout() {
 
-localStorage.removeItem(
-"isLoggedIn"
-);
+    localStorage.removeItem("isLoggedIn");
 
-window.location.href =
-"login.html";
-
+    window.location.href =
+        "login.html";
 }
